@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#09121e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Marcador">
+    <link rel="icon" type="image/jpeg" href="./capa.jpg">
+    <link rel="apple-touch-icon" href="./capa.jpg">
     <title>Marcador</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -80,11 +86,12 @@
         <div id="screen-home" class="flex flex-col flex-1 p-6 justify-between">
             <!-- Header Logo & Title -->
             <div class="text-center mt-4">
-                <div class="relative w-40 h-40 mx-auto mb-4 rounded-full border-4 border-amber-500 shadow-2xl overflow-hidden bg-navyDark">
-                    <img src="Gemini_Generated_Image_hihj5hhihj5hhihj.jpg" 
-                         onerror="this.src='https://placehold.co/400x400/0f1c2e/d97706?text=Marcador'" 
+                <div class="relative w-40 h-40 mx-auto mb-4 rounded-full border-4 border-amber-500 shadow-2xl overflow-hidden bg-navyDark flex items-center justify-center">
+                    <img src="./capa.jpg" 
+                         onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='capa.jpg';}else{this.src='https://placehold.co/400x400/0f1c2e/d97706?text=Marcador';this.style.transform='scale(1)';}" 
                          alt="Marcador Capa" 
-                         class="w-full h-full object-cover">
+                         style="transform: scale(1.42);"
+                         class="w-full h-full object-cover object-center transition-transform duration-300">
                 </div>
                 <h1 class="text-4xl font-black tracking-wider text-amber-400 drop-shadow-md uppercase">Marcador</h1>
                 <p class="text-xs text-amber-200/70 mt-1 uppercase tracking-widest font-semibold">Placar Oficial de Mesa & Baralho</p>
@@ -129,11 +136,8 @@
                 </button>
             </div>
 
-            <!-- APK Guide Footer Button -->
+            <!-- Subtle Footer -->
             <div class="text-center mb-2">
-                <button onclick="openModal('modal-apk')" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-navyDark rounded-xl font-black border border-amber-400 shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95">
-                    <i class="fa-brands fa-android text-xl"></i> Exportar APK para Android
-                </button>
                 <p class="text-[10px] text-slate-400 mt-2">Marcador v1.0 • Salvamento Automático Offline</p>
             </div>
         </div>
@@ -404,46 +408,6 @@
                 <button onclick="closeCanastraModal()" class="py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold">Cancelar</button>
                 <button onclick="confirmCanastraPts()" class="py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow">Salvar Rodada</button>
             </div>
-        </div>
-    </div>
-
-    <!-- APK Export Guide Modal -->
-    <div id="modal-apk" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="card-gradient border-2 border-amber-500 rounded-2xl w-full max-w-md p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-amber-500/20">
-                <h3 class="text-lg font-black text-amber-400 uppercase flex items-center gap-2">
-                    <i class="fa-brands fa-android"></i> Gerar APK do "Marcador"
-                </h3>
-                <button onclick="closeModal('modal-apk')" class="text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
-                <p>Siga os passos abaixo para transformar o app <strong>Marcador</strong> em um instalador <strong>.APK</strong> para Android usando sua imagem de capa como ícone do aplicativo:</p>
-                
-                <div class="bg-navyDark/80 p-3.5 rounded-xl border border-amber-500/30">
-                    <strong class="text-amber-400 block mb-1.5 text-sm">Opção 1: PWABuilder (Sem instalar programas)</strong>
-                    <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
-                        <li>Salve este arquivo como <code class="bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded">index.html</code> junto com sua imagem de capa na mesma pasta.</li>
-                        <li>Suba a pasta gratuitamente no <strong>Netlify Drop</strong> ou <strong>GitHub Pages</strong>.</li>
-                        <li>Acesse <span class="text-amber-400 font-bold">pwabuilder.com</span>, cole a URL publicada e clique em <strong>Start</strong>.</li>
-                        <li>Em <strong>Package for Stores > Android</strong>, configure o nome <strong>"Marcador"</strong>, envie sua imagem como ícone e baixe o <strong>.APK pronto para instalar</strong>.</li>
-                    </ol>
-                </div>
-
-                <div class="bg-navyDark/80 p-3.5 rounded-xl border border-amber-500/30">
-                    <strong class="text-amber-400 block mb-1.5 text-sm">Opção 2: Capacitor + Android Studio (Local)</strong>
-                    <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
-                        <li>Coloque o <code class="bg-slate-800 text-amber-300 px-1 rounded">index.html</code> e a imagem na pasta <code class="bg-slate-800 text-amber-300 px-1 rounded">www/</code>.</li>
-                        <li>No terminal, execute:<br>
-                            <code class="block bg-black/60 text-amber-300 p-2 rounded mt-1 font-mono text-[11px]">npm init -y && npm i @capacitor/core @capacitor/cli @capacitor/android<br>npx cap init "Marcador" com.marcador.app --web-dir=www<br>npx cap add android && npx cap open android</code>
-                        </li>
-                        <li>No Android Studio, clique com o botão direito em <code class="text-amber-300">res > New > Image Asset</code> para aplicar sua imagem como ícone do app.</li>
-                        <li>Vá no menu superior em <strong>Build > Build Bundle(s) / APK(s) > Build APK(s)</strong> para gerar o arquivo <code class="text-amber-300">app-debug.apk</code>.</li>
-                    </ol>
-                </div>
-            </div>
-            <button onclick="closeModal('modal-apk')" class="w-full mt-4 py-3 bg-amber-600 hover:bg-amber-500 text-navyDark font-black rounded-xl shadow">Entendido</button>
         </div>
     </div>
 

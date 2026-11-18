@@ -93,8 +93,14 @@
     <div class="w-full grid grid-cols-2 gap-4 my-6">
       <!-- Truco -->
       <button onclick="openGame('truco')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
-        <div class="w-12 h-12 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mb-3 text-amber-400">
-          <i data-lucide="layers-2" class="w-6 h-6"></i>
+        <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
+          <img 
+            src="./truco.jpg" 
+            alt="Truco" 
+            class="w-full h-full object-cover scale-[1.35]"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          >
+          <i data-lucide="layers-2" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Truco</span>
         <span class="text-[11px] text-slate-400 mt-1">Paulista / Mineiro</span>
@@ -102,8 +108,14 @@
 
       <!-- Dominó -->
       <button onclick="openGame('domino')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
-        <div class="w-12 h-12 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mb-3 text-amber-400">
-          <i data-lucide="dices" class="w-6 h-6"></i>
+        <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
+          <img 
+            src="./domino.jpg" 
+            alt="Dominó" 
+            class="w-full h-full object-cover scale-[1.35]"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          >
+          <i data-lucide="dices" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Dominó</span>
         <span class="text-[11px] text-slate-400 mt-1">Pontuação Acumulativa</span>
@@ -111,8 +123,14 @@
 
       <!-- Cacheta -->
       <button onclick="openGame('cacheta')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
-        <div class="w-12 h-12 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mb-3 text-amber-400">
-          <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+        <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
+          <img 
+            src="./cacheta.jpg" 
+            alt="Cacheta" 
+            class="w-full h-full object-cover scale-[1.35]"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          >
+          <i data-lucide="heart-pulse" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Cacheta</span>
         <span class="text-[11px] text-slate-400 mt-1">Vidas e Compras</span>
@@ -120,8 +138,14 @@
 
       <!-- Canastra -->
       <button onclick="openGame('canastra')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
-        <div class="w-12 h-12 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mb-3 text-amber-400">
-          <i data-lucide="layers" class="w-6 h-6"></i>
+        <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
+          <img 
+            src="./canastra.jpg" 
+            alt="Canastra" 
+            class="w-full h-full object-cover scale-[1.35]"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          >
+          <i data-lucide="layers" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Canastra</span>
         <span class="text-[11px] text-slate-400 mt-1">Modo Simplificado</span>
@@ -242,3 +266,324 @@
       <p class="text-xs text-slate-400 uppercase font-bold mb-2 text-center">Lançar Pontos da Rodada</p>
       <div class="grid grid-cols-2 gap-3">
         <div class="flex gap-2">
+          <input id="domino-input-a" type="number" placeholder="Pts A" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+          <button onclick="addRoundPoints('domino', 'a')" class="btn-gold px-4 rounded-xl">+</button>
+        </div>
+        <div class="flex gap-2">
+          <input id="domino-input-b" type="number" placeholder="Pts B" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+          <button onclick="addRoundPoints('domino', 'b')" class="btn-gold px-4 rounded-xl">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Histórico de Rodadas -->
+    <div class="card-panel rounded-2xl p-4 flex-1 overflow-y-auto">
+      <h3 class="text-xs font-bold uppercase text-amber-400 mb-2">Histórico de Rodadas</h3>
+      <div id="domino-history" class="space-y-1.5 text-sm text-slate-300"></div>
+    </div>
+  </div>
+
+  <!-- ==================== TELA 3: CACHETA ==================== -->
+  <div id="screen-cacheta" class="hidden flex-1 flex flex-col p-4">
+    <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
+      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400">
+        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+      </button>
+      <div class="text-center">
+        <h2 class="text-lg font-black text-amber-400 uppercase tracking-wide">Marcador • Cacheta</h2>
+        <span class="text-xs text-slate-400">Controle de Vidas</span>
+      </div>
+      <button onclick="resetCacheta()" class="p-2 rounded-xl bg-slate-800/80 text-rose-400">
+        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Adicionar Jogador -->
+    <div class="flex gap-2 mb-4">
+      <input id="cacheta-new-player" type="text" placeholder="Nome do jogador..." class="flex-1 bg-[#111c3d] border border-amber-500/30 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500">
+      <button onclick="addCachetaPlayer()" class="btn-gold px-5 rounded-xl text-sm">Adicionar</button>
+    </div>
+
+    <!-- Lista de Jogadores -->
+    <div id="cacheta-players-list" class="space-y-3 flex-1 overflow-y-auto"></div>
+  </div>
+
+  <!-- ==================== TELA 4: CANASTRA (SIMPLIFICADA) ==================== -->
+  <div id="screen-canastra" class="hidden flex-1 flex flex-col p-4">
+    <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
+      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400">
+        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+      </button>
+      <div class="text-center">
+        <h2 class="text-lg font-black text-amber-400 uppercase tracking-wide">Marcador • Canastra</h2>
+        <span class="text-xs text-slate-400">Modo Simplificado (Sem Canastra Real)</span>
+      </div>
+      <button onclick="resetSimpleGame('canastra')" class="p-2 rounded-xl bg-slate-800/80 text-rose-400">
+        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Placar Geral Canastra -->
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div class="card-panel rounded-2xl p-4 text-center">
+        <input id="canastra-name-a" type="text" value="Nós" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 text-sm w-full focus:outline-none">
+        <div id="canastra-total-a" class="text-4xl font-black text-white my-2">0</div>
+      </div>
+      <div class="card-panel rounded-2xl p-4 text-center">
+        <input id="canastra-name-b" type="text" value="Eles" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 text-sm w-full focus:outline-none">
+        <div id="canastra-total-b" class="text-4xl font-black text-white my-2">0</div>
+      </div>
+    </div>
+
+    <!-- Lançamento Rápido Canastra -->
+    <div class="card-panel rounded-2xl p-4 mb-4">
+      <p class="text-xs text-slate-400 uppercase font-bold mb-2 text-center">Somar Pontos da Mesa / Batida</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="flex gap-2">
+          <input id="canastra-input-a" type="number" placeholder="Pts Nós" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+          <button onclick="addRoundPoints('canastra', 'a')" class="btn-gold px-4 rounded-xl">+</button>
+        </div>
+        <div class="flex gap-2">
+          <input id="canastra-input-b" type="number" placeholder="Pts Eles" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+          <button onclick="addRoundPoints('canastra', 'b')" class="btn-gold px-4 rounded-xl">+</button>
+        </div>
+      </div>
+      <!-- Atalhos de Canastra Limpa/Suja/Batida -->
+      <div class="grid grid-cols-3 gap-2 mt-3">
+        <button onclick="quickCanastra(100)" class="py-1.5 rounded-lg bg-slate-800 text-amber-300 text-xs font-bold">+100 Suja/Batida</button>
+        <button onclick="quickCanastra(200)" class="py-1.5 rounded-lg bg-slate-800 text-amber-300 text-xs font-bold">+200 Limpa</button>
+        <button onclick="quickCanastra(500)" class="py-1.5 rounded-lg bg-slate-800 text-amber-300 text-xs font-bold">+500 Ases</button>
+      </div>
+    </div>
+
+    <!-- Histórico Canastra -->
+    <div class="card-panel rounded-2xl p-4 flex-1 overflow-y-auto">
+      <h3 class="text-xs font-bold uppercase text-amber-400 mb-2">Parciais da Partida</h3>
+      <div id="canastra-history" class="space-y-1.5 text-sm text-slate-300"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS & LÓGICA DO APP ==================== -->
+  <script>
+    // Registra o Service Worker para funcionamento Offline e PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW erro:', err));
+      });
+    }
+
+    // Estado Inicial Padrão
+    let appState = {
+      truco: { nameNos: 'NÓS', nameEles: 'ELES', scoreNos: 0, scoreEles: 0, quedasNos: 0, quedasEles: 0 },
+      domino: { nameA: 'Dupla A', nameB: 'Dupla B', totalA: 0, totalB: 0, history: [] },
+      cacheta: { players: [{ name: 'Jogador 1', lives: 10 }, { name: 'Jogador 2', lives: 10 }] },
+      canastra: { nameA: 'Nós', nameB: 'Eles', totalA: 0, totalB: 0, history: [] }
+    };
+
+    // Carregar do LocalStorage
+    function loadState() {
+      const saved = localStorage.getItem('marcador_app_state_v1');
+      if (saved) {
+        try {
+          appState = JSON.parse(saved);
+        } catch (e) {}
+      }
+      renderAll();
+    }
+
+    // Salvar no LocalStorage
+    function saveState() {
+      appState.truco.nameNos = document.getElementById('truco-name-nos').value || 'NÓS';
+      appState.truco.nameEles = document.getElementById('truco-name-eles').value || 'ELES';
+      appState.domino.nameA = document.getElementById('domino-name-a').value || 'Dupla A';
+      appState.domino.nameB = document.getElementById('domino-name-b').value || 'Dupla B';
+      appState.canastra.nameA = document.getElementById('canastra-name-a').value || 'Nós';
+      appState.canastra.nameB = document.getElementById('canastra-name-b').value || 'Eles';
+      localStorage.setItem('marcador_app_state_v1', JSON.stringify(appState));
+    }
+
+    function vibrate() {
+      if (navigator.vibrate) navigator.vibrate(35);
+    }
+
+    // Navegação entre Telas
+    function openGame(game) {
+      vibrate();
+      document.getElementById('screen-home').classList.add('hidden');
+      document.getElementById('screen-' + game).classList.remove('hidden');
+      renderAll();
+    }
+
+    function goHome() {
+      vibrate();
+      ['truco', 'domino', 'cacheta', 'canastra'].forEach(g => {
+        document.getElementById('screen-' + g).classList.add('hidden');
+      });
+      document.getElementById('screen-home').classList.remove('hidden');
+    }
+
+    // ==================== LÓGICA TRUCO ====================
+    function addTruco(team, pts) {
+      vibrate();
+      if (team === 'nos') {
+        appState.truco.scoreNos = Math.max(0, appState.truco.scoreNos + pts);
+        if (appState.truco.scoreNos >= 12) {
+          appState.truco.quedasNos++;
+          alert(`🏆 ${appState.truco.nameNos} venceram a queda!`);
+          appState.truco.scoreNos = 0;
+          appState.truco.scoreEles = 0;
+        }
+      } else {
+        appState.truco.scoreEles = Math.max(0, appState.truco.scoreEles + pts);
+        if (appState.truco.scoreEles >= 12) {
+          appState.truco.quedasEles++;
+          alert(`🏆 ${appState.truco.nameEles} venceram a queda!`);
+          appState.truco.scoreNos = 0;
+          appState.truco.scoreEles = 0;
+        }
+      }
+      saveState();
+      renderAll();
+    }
+
+    function resetTruco() {
+      vibrate();
+      if (confirm('Zerar placar e quedas do Truco?')) {
+        appState.truco.scoreNos = 0;
+        appState.truco.scoreEles = 0;
+        appState.truco.quedasNos = 0;
+        appState.truco.quedasEles = 0;
+        saveState();
+        renderAll();
+      }
+    }
+
+    // ==================== LÓGICA DOMINÓ & CANASTRA ====================
+    function addRoundPoints(game, side) {
+      vibrate();
+      const inputEl = document.getElementById(`${game}-input-${side}`);
+      const val = parseInt(inputEl.value);
+      if (isNaN(val) || val === 0) return;
+
+      if (side === 'a') {
+        appState[game].totalA += val;
+        appState[game].history.unshift(`${appState[game].nameA}: +${val} pts (Total: ${appState[game].totalA})`);
+      } else {
+        appState[game].totalB += val;
+        appState[game].history.unshift(`${appState[game].nameB}: +${val} pts (Total: ${appState[game].totalB})`);
+      }
+      inputEl.value = '';
+      saveState();
+      renderAll();
+    }
+
+    function quickCanastra(val) {
+      vibrate();
+      const target = prompt(`Adicionar +${val} pontos para qual equipe?\nDigite 1 para ${appState.canastra.nameA} ou 2 para ${appState.canastra.nameB}:`);
+      if (target === '1') {
+        document.getElementById('canastra-input-a').value = val;
+        addRoundPoints('canastra', 'a');
+      } else if (target === '2') {
+        document.getElementById('canastra-input-b').value = val;
+        addRoundPoints('canastra', 'b');
+      }
+    }
+
+    function resetSimpleGame(game) {
+      vibrate();
+      if (confirm('Zerar todo o placar e histórico?')) {
+        appState[game].totalA = 0;
+        appState[game].totalB = 0;
+        appState[game].history = [];
+        saveState();
+        renderAll();
+      }
+    }
+
+    // ==================== LÓGICA CACHETA ====================
+    function addCachetaPlayer() {
+      vibrate();
+      const input = document.getElementById('cacheta-new-player');
+      const name = input.value.trim();
+      if (!name) return;
+      appState.cacheta.players.push({ name, lives: 10 });
+      input.value = '';
+      saveState();
+      renderAll();
+    }
+
+    function updateCachetaLife(idx, delta) {
+      vibrate();
+      appState.cacheta.players[idx].lives = Math.max(0, appState.cacheta.players[idx].lives + delta);
+      saveState();
+      renderAll();
+    }
+
+    function removeCachetaPlayer(idx) {
+      vibrate();
+      appState.cacheta.players.splice(idx, 1);
+      saveState();
+      renderAll();
+    }
+
+    function resetCacheta() {
+      vibrate();
+      if (confirm('Reiniciar todas as vidas para 10?')) {
+        appState.cacheta.players.forEach(p => p.lives = 10);
+        saveState();
+        renderAll();
+      }
+    }
+
+    // ==================== RENDERIZAÇÃO GERAL ====================
+    function renderAll() {
+      // Truco
+      document.getElementById('truco-name-nos').value = appState.truco.nameNos;
+      document.getElementById('truco-name-eles').value = appState.truco.nameEles;
+      document.getElementById('truco-score-nos').innerText = appState.truco.scoreNos;
+      document.getElementById('truco-score-eles').innerText = appState.truco.scoreEles;
+      document.getElementById('truco-quedas-nos').innerText = appState.truco.quedasNos;
+      document.getElementById('truco-quedas-eles').innerText = appState.truco.quedasEles;
+
+      // Dominó
+      document.getElementById('domino-name-a').value = appState.domino.nameA;
+      document.getElementById('domino-name-b').value = appState.domino.nameB;
+      document.getElementById('domino-total-a').innerText = appState.domino.totalA;
+      document.getElementById('domino-total-b').innerText = appState.domino.totalB;
+      document.getElementById('domino-history').innerHTML = appState.domino.history.map(item => `<div class="border-b border-slate-800 pb-1">${item}</div>`).join('');
+
+      // Canastra
+      document.getElementById('canastra-name-a').value = appState.canastra.nameA;
+      document.getElementById('canastra-name-b').value = appState.canastra.nameB;
+      document.getElementById('canastra-total-a').innerText = appState.canastra.totalA;
+      document.getElementById('canastra-total-b').innerText = appState.canastra.totalB;
+      document.getElementById('canastra-history').innerHTML = appState.canastra.history.map(item => `<div class="border-b border-slate-800 pb-1">${item}</div>`).join('');
+
+      // Cacheta
+      const cachetaList = document.getElementById('cacheta-players-list');
+      cachetaList.innerHTML = appState.cacheta.players.map((p, idx) => `
+        <div class="card-panel rounded-2xl p-4 flex items-center justify-between ${p.lives === 0 ? 'opacity-50' : ''}">
+          <div>
+            <span class="font-bold text-white text-base block">${p.name}</span>
+            <span class="text-xs ${p.lives === 0 ? 'text-rose-400 font-bold' : 'text-amber-400'}">
+              ${p.lives === 0 ? 'ESTOUROU (0 vidas)' : p.lives + ' vidas'}
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="updateCachetaLife(${idx}, -1)" class="w-10 h-10 rounded-xl bg-slate-800 text-rose-400 font-black text-lg">-1</button>
+            <button onclick="updateCachetaLife(${idx}, 1)" class="w-10 h-10 rounded-xl btn-gold font-black text-lg">+1</button>
+            <button onclick="removeCachetaPlayer(${idx})" class="p-2 text-slate-500 hover:text-rose-400">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    // Inicializar
+    loadState();
+  </script>
+</body>
+</html>

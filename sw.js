@@ -1,9 +1,14 @@
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open('marcador-store').then((cache) => cache.addAll([
+    caches.open('marcador-store-v2').then((cache) => cache.addAll([
       '/',
       '/index.html',
-      '/capa.jpg'
+      '/manifest.json',
+      '/capa.jpg',
+      '/truco.jpg',
+      '/domino.jpg',
+      '/cacheta.jpg',
+      '/canastra.jpg'
     ]))
   );
 });

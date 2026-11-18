@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Marcador</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navyBase: '#0f1c2e',
+                        navyDark: '#09121e',
+                        navyLight: '#182b44',
+                        amberGold: '#d97706',
+                        goldLight: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #09121e;
+            color: #f3f4f6;
+            touch-action: manipulation;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09121e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 3px;
+        }
+        .card-gradient {
+            background: linear-gradient(135deg, #16283e 0%, #0d1826 100%);
+        }
+        .navy-gradient {
+            background: radial-gradient(circle at center, #182b44 0%, #09121e 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none">
+
+    <!-- Toast / Message Box Container -->
+    <div id="toast-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-md"></div>
+
+    <!-- Custom Confirm Modal (No native confirm() used) -->
+    <div id="modal-confirm" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="card-gradient border-2 border-amber-500 rounded-2xl w-full max-w-sm p-5 shadow-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-3">
+                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+            </div>
+            <h3 id="confirm-modal-title" class="text-lg font-black text-amber-400 uppercase mb-2">Confirmar Ação</h3>
+            <p id="confirm-modal-msg" class="text-sm text-slate-300 mb-5">Tem certeza que deseja continuar?</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeConfirmModal()" class="py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold">Cancelar</button>
+                <button id="confirm-modal-btn" class="py-3 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold shadow">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="app" class="flex-1 flex flex-col max-w-md mx-auto w-full shadow-2xl overflow-hidden relative navy-gradient min-h-screen border-x border-amber-500/10">
+
+        <!-- Splash Screen / Cover Page -->
+        <div id="screen-home" class="flex flex-col flex-1 p-6 justify-between">
+            <!-- Header Logo & Title -->
+            <div class="text-center mt-4">
+                <div class="relative w-40 h-40 mx-auto mb-4 rounded-full border-4 border-amber-500 shadow-2xl overflow-hidden bg-navyDark">
+                    <img src="Gemini_Generated_Image_hihj5hhihj5hhihj.jpg" 
+                         onerror="this.src='https://placehold.co/400x400/0f1c2e/d97706?text=Marcador'" 
+                         alt="Marcador Capa" 
+                         class="w-full h-full object-cover">
+                </div>
+                <h1 class="text-4xl font-black tracking-wider text-amber-400 drop-shadow-md uppercase">Marcador</h1>
+                <p class="text-xs text-amber-200/70 mt-1 uppercase tracking-widest font-semibold">Placar Oficial de Mesa & Baralho</p>
+            </div>
+
+            <!-- Game Selection Buttons -->
+            <div class="grid grid-cols-2 gap-4 my-6">
+                <!-- Truco -->
+                <button onclick="switchScreen('truco')" class="card-gradient border-2 border-amber-500/50 hover:border-amber-400 p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-lg transform active:scale-95 transition-all group">
+                    <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mb-2 group-hover:bg-amber-500/30">
+                        <i class="fa-solid fa-clone text-2xl text-amber-400"></i>
+                    </div>
+                    <span class="font-bold text-lg text-amber-100">Truco</span>
+                    <span class="text-[10px] text-amber-300/70">Paulista / Mineiro</span>
+                </button>
+
+                <!-- Dominó -->
+                <button onclick="switchScreen('domino')" class="card-gradient border-2 border-amber-500/50 hover:border-amber-400 p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-lg transform active:scale-95 transition-all group">
+                    <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mb-2 group-hover:bg-amber-500/30">
+                        <i class="fa-solid fa-dice text-2xl text-amber-400"></i>
+                    </div>
+                    <span class="font-bold text-lg text-amber-100">Dominó</span>
+                    <span class="text-[10px] text-amber-300/70">Pontuação Acumulativa</span>
+                </button>
+
+                <!-- Cacheta -->
+                <button onclick="switchScreen('cacheta')" class="card-gradient border-2 border-amber-500/50 hover:border-amber-400 p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-lg transform active:scale-95 transition-all group">
+                    <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mb-2 group-hover:bg-amber-500/30">
+                        <i class="fa-solid fa-heart-pulse text-2xl text-amber-400"></i>
+                    </div>
+                    <span class="font-bold text-lg text-amber-100">Cacheta</span>
+                    <span class="text-[10px] text-amber-300/70">Vidas e Compras</span>
+                </button>
+
+                <!-- Canastra Simplificada -->
+                <button onclick="switchScreen('canastra')" class="card-gradient border-2 border-amber-500/50 hover:border-amber-400 p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-lg transform active:scale-95 transition-all group">
+                    <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mb-2 group-hover:bg-amber-500/30">
+                        <i class="fa-solid fa-layer-group text-2xl text-amber-400"></i>
+                    </div>
+                    <span class="font-bold text-lg text-amber-100">Canastra</span>
+                    <span class="text-[10px] text-amber-300/70">Modo Simplificado</span>
+                </button>
+            </div>
+
+            <!-- APK Guide Footer Button -->
+            <div class="text-center mb-2">
+                <button onclick="openModal('modal-apk')" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-navyDark rounded-xl font-black border border-amber-400 shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95">
+                    <i class="fa-brands fa-android text-xl"></i> Exportar APK para Android
+                </button>
+                <p class="text-[10px] text-slate-400 mt-2">Marcador v1.0 • Salvamento Automático Offline</p>
+            </div>
+        </div>
+
+        <!-- ==================== TRUCO SCREEN ==================== -->
+        <div id="screen-truco" class="hidden flex flex-col flex-1 p-4 justify-between">
+            <div>
+                <!-- Top Nav -->
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-amber-500/20">
+                    <button onclick="switchScreen('home')" class="w-10 h-10 rounded-xl bg-navyDark/70 text-amber-400 flex items-center justify-center hover:bg-navyDark border border-amber-500/30">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    </button>
+                    <div class="text-center">
+                        <span class="text-[10px] uppercase tracking-widest text-amber-400/70 block font-bold">Marcador</span>
+                        <h2 class="text-xl font-black text-amber-400 uppercase leading-none">Truco</h2>
+                    </div>
+                    <button onclick="requestResetTruco()" class="w-10 h-10 rounded-xl bg-red-950/60 text-red-400 flex items-center justify-center hover:bg-red-900/60 border border-red-500/30" title="Zerar Placar">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <!-- Quedas / Vistorias (Melhor de 3) -->
+                <div class="flex justify-between items-center bg-navyDark/70 p-3 rounded-xl mb-4 border border-amber-500/20">
+                    <div class="text-center flex-1">
+                        <span class="text-xs text-amber-300/70 uppercase block font-semibold">Quedas Nós</span>
+                        <span id="truco-q-nos" class="text-2xl font-black text-amber-400">0</span>
+                    </div>
+                    <div class="h-8 w-px bg-amber-500/20"></div>
+                    <div class="text-center flex-1">
+                        <span class="text-xs text-amber-300/70 uppercase block font-semibold">Quedas Eles</span>
+                        <span id="truco-q-eles" class="text-2xl font-black text-amber-400">0</span>
+                    </div>
+                </div>
+
+                <!-- Score Board (Nós vs Eles) -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <!-- NÓS -->
+                    <div class="card-gradient border-2 border-amber-500/40 rounded-2xl p-4 text-center flex flex-col justify-between shadow-xl">
+                        <div>
+                            <span class="text-sm font-bold uppercase tracking-wider text-amber-300">Nós</span>
+                            <div id="truco-pts-nos" class="text-6xl font-black text-white my-3">0</div>
+                            <div id="truco-status-nos" class="text-xs font-semibold text-amber-400 h-5"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-4">
+                            <button onclick="addTrucoPts('nos', 1)" class="py-3.5 bg-sky-700 hover:bg-sky-600 text-white rounded-xl font-black text-lg shadow active:scale-95 transition">+1</button>
+                            <button onclick="addTrucoPts('nos', 3)" class="py-3.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-black text-lg shadow active:scale-95 transition">+3</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button onclick="addTrucoPts('nos', 6)" class="py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-xl font-bold text-sm shadow active:scale-95 transition">+6</button>
+                            <button onclick="addTrucoPts('nos', -1)" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold text-sm shadow active:scale-95 transition">-1</button>
+                        </div>
+                    </div>
+
+                    <!-- ELES -->
+                    <div class="card-gradient border-2 border-red-500/40 rounded-2xl p-4 text-center flex flex-col justify-between shadow-xl">
+                        <div>
+                            <span class="text-sm font-bold uppercase tracking-wider text-red-300">Eles</span>
+                            <div id="truco-pts-eles" class="text-6xl font-black text-white my-3">0</div>
+                            <div id="truco-status-eles" class="text-xs font-semibold text-amber-400 h-5"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-4">
+                            <button onclick="addTrucoPts('eles', 1)" class="py-3.5 bg-red-700 hover:bg-red-600 text-white rounded-xl font-black text-lg shadow active:scale-95 transition">+1</button>
+                            <button onclick="addTrucoPts('eles', 3)" class="py-3.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-black text-lg shadow active:scale-95 transition">+3</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button onclick="addTrucoPts('eles', 6)" class="py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-xl font-bold text-sm shadow active:scale-95 transition">+6</button>
+                            <button onclick="addTrucoPts('eles', -1)" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold text-sm shadow active:scale-95 transition">-1</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History / Info -->
+            <div class="bg-navyDark/70 p-3 rounded-xl border border-amber-500/20 text-center">
+                <span class="text-xs text-amber-300 font-semibold block">Regra: 12 Pontos para Vencer a Queda.</span>
+            </div>
+        </div>
+
+        <!-- ==================== DOMINO SCREEN ==================== -->
+        <div id="screen-domino" class="hidden flex flex-col flex-1 p-4 justify-between">
+            <div>
+                <!-- Top Nav -->
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-amber-500/20">
+                    <button onclick="switchScreen('home')" class="w-10 h-10 rounded-xl bg-navyDark/70 text-amber-400 flex items-center justify-center hover:bg-navyDark border border-amber-500/30">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    </button>
+                    <div class="text-center">
+                        <span class="text-[10px] uppercase tracking-widest text-amber-400/70 block font-bold">Marcador</span>
+                        <h2 class="text-xl font-black text-amber-400 uppercase leading-none">Dominó</h2>
+                    </div>
+                    <button onclick="requestResetDomino()" class="w-10 h-10 rounded-xl bg-red-950/60 text-red-400 flex items-center justify-center hover:bg-red-900/60 border border-red-500/30" title="Zerar Placar">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <!-- Target Score Config -->
+                <div class="flex justify-between items-center bg-navyDark/70 p-3 rounded-xl mb-4 border border-amber-500/20">
+                    <span class="text-xs text-amber-300 uppercase font-bold">Meta de Pontos:</span>
+                    <select id="domino-target" onchange="saveDominoState()" class="bg-navyBase text-amber-400 font-bold px-3 py-1.5 rounded-lg border border-amber-500/40 outline-none">
+                        <option value="100">100 Pontos</option>
+                        <option value="200" selected>200 Pontos</option>
+                        <option value="300">300 Pontos</option>
+                    </select>
+                </div>
+
+                <!-- Teams / Players Scores -->
+                <div class="space-y-3 mb-4">
+                    <!-- Dupla A -->
+                    <div class="card-gradient border border-amber-500/40 rounded-xl p-3.5 flex items-center justify-between shadow-md">
+                        <div>
+                            <input type="text" id="domino-name-a" value="Dupla 1 (Nós)" onchange="saveDominoState()" class="bg-transparent text-amber-300 font-bold text-sm outline-none w-36 border-b border-dashed border-amber-500/40 pb-0.5">
+                            <div id="domino-pts-a" class="text-3xl font-black text-white mt-1">0</div>
+                        </div>
+                        <button onclick="openDominoModal('A')" class="px-4 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow flex items-center gap-2 active:scale-95 transition">
+                            <i class="fa-solid fa-plus"></i> Pontos
+                        </button>
+                    </div>
+
+                    <!-- Dupla B -->
+                    <div class="card-gradient border border-amber-500/40 rounded-xl p-3.5 flex items-center justify-between shadow-md">
+                        <div>
+                            <input type="text" id="domino-name-b" value="Dupla 2 (Eles)" onchange="saveDominoState()" class="bg-transparent text-amber-300 font-bold text-sm outline-none w-36 border-b border-dashed border-amber-500/40 pb-0.5">
+                            <div id="domino-pts-b" class="text-3xl font-black text-white mt-1">0</div>
+                        </div>
+                        <button onclick="openDominoModal('B')" class="px-4 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow flex items-center gap-2 active:scale-95 transition">
+                            <i class="fa-solid fa-plus"></i> Pontos
+                        </button>
+                    </div>
+                </div>
+
+                <!-- History / Rounds -->
+                <div class="bg-navyDark/70 p-3 rounded-xl border border-amber-500/20 max-h-48 overflow-y-auto">
+                    <h3 class="text-xs font-bold text-amber-400 uppercase mb-2">Histórico de Rodadas</h3>
+                    <div id="domino-history-list" class="space-y-1.5 text-xs text-slate-300">
+                        <p class="text-slate-500 text-center italic">Nenhuma rodada registrada ainda.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-2">
+                <span class="text-[10px] text-slate-400">Toque em "+ Pontos" para somar a pontuação da rodada.</span>
+            </div>
+        </div>
+
+        <!-- ==================== CACHETA SCREEN ==================== -->
+        <div id="screen-cacheta" class="hidden flex flex-col flex-1 p-4 justify-between">
+            <div>
+                <!-- Top Nav -->
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-amber-500/20">
+                    <button onclick="switchScreen('home')" class="w-10 h-10 rounded-xl bg-navyDark/70 text-amber-400 flex items-center justify-center hover:bg-navyDark border border-amber-500/30">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    </button>
+                    <div class="text-center">
+                        <span class="text-[10px] uppercase tracking-widest text-amber-400/70 block font-bold">Marcador</span>
+                        <h2 class="text-xl font-black text-amber-400 uppercase leading-none">Cacheta</h2>
+                    </div>
+                    <button onclick="openAddPlayerModal()" class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center hover:bg-amber-500 shadow" title="Adicionar Jogador">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </div>
+
+                <!-- Players List -->
+                <div id="cacheta-players-list" class="space-y-3 mb-4 max-h-[60vh] overflow-y-auto pr-1">
+                    <!-- Dinâmico -->
+                </div>
+            </div>
+
+            <!-- Footer info -->
+            <div class="bg-navyDark/70 p-3 rounded-xl border border-amber-500/20 text-center">
+                <span class="text-xs text-amber-300 font-semibold block">Gerencie vidas, eliminações e compras/reentradas.</span>
+            </div>
+        </div>
+
+        <!-- ==================== CANASTRA SCREEN ==================== -->
+        <div id="screen-canastra" class="hidden flex flex-col flex-1 p-4 justify-between">
+            <div>
+                <!-- Top Nav -->
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-amber-500/20">
+                    <button onclick="switchScreen('home')" class="w-10 h-10 rounded-xl bg-navyDark/70 text-amber-400 flex items-center justify-center hover:bg-navyDark border border-amber-500/30">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    </button>
+                    <div class="text-center">
+                        <span class="text-[10px] uppercase tracking-widest text-amber-400/70 block font-bold">Marcador</span>
+                        <h2 class="text-xl font-black text-amber-400 uppercase leading-none">Canastra</h2>
+                    </div>
+                    <button onclick="requestResetCanastra()" class="w-10 h-10 rounded-xl bg-red-950/60 text-red-400 flex items-center justify-center hover:bg-red-900/60 border border-red-500/30" title="Zerar Placar">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <!-- Team Names -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="card-gradient p-3.5 rounded-xl border border-amber-500/40 text-center shadow-md">
+                        <input type="text" id="canastra-name-a" value="Dupla 1" onchange="saveCanastraState()" class="bg-transparent text-amber-300 font-bold text-center text-sm outline-none w-full border-b border-dashed border-amber-500/40 pb-0.5">
+                        <div id="canastra-pts-a" class="text-4xl font-black text-white mt-2">0</div>
+                    </div>
+                    <div class="card-gradient p-3.5 rounded-xl border border-amber-500/40 text-center shadow-md">
+                        <input type="text" id="canastra-name-b" value="Dupla 2" onchange="saveCanastraState()" class="bg-transparent text-amber-300 font-bold text-center text-sm outline-none w-full border-b border-dashed border-amber-500/40 pb-0.5">
+                        <div id="canastra-pts-b" class="text-4xl font-black text-white mt-2">0</div>
+                    </div>
+                </div>
+
+                <!-- Add Round Button -->
+                <button onclick="openCanastraModal()" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mb-4 active:scale-95 transition">
+                    <i class="fa-solid fa-calculator text-lg"></i> Registrar Pontos da Rodada
+                </button>
+
+                <!-- History -->
+                <div class="bg-navyDark/70 p-3 rounded-xl border border-amber-500/20 max-h-44 overflow-y-auto">
+                    <h3 class="text-xs font-bold text-amber-400 uppercase mb-2">Histórico Parcial</h3>
+                    <div id="canastra-history-list" class="space-y-1.5 text-xs text-slate-300">
+                        <p class="text-slate-500 text-center italic">Nenhuma rodada registrada.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-2">
+                <span class="text-[10px] text-slate-400">Canastra Simplificada: soma rápida de parciais por rodada.</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Domino Points Modal -->
+    <div id="modal-domino" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="card-gradient border-2 border-amber-500 rounded-2xl w-full max-w-sm p-5 shadow-2xl">
+            <h3 id="domino-modal-title" class="text-lg font-black text-amber-400 uppercase mb-3">Adicionar Pontos</h3>
+            <p class="text-xs text-slate-300 mb-3">Digite quantos pontos a dupla fez nesta rodada:</p>
+            <input type="number" id="domino-input-pts" placeholder="Ex: 35" class="w-full bg-navyDark border border-amber-500/50 rounded-xl px-4 py-3 text-white font-bold text-xl outline-none mb-4 text-center">
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeDominoModal()" class="py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold">Cancelar</button>
+                <button onclick="confirmDominoPts()" class="py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Cacheta Player Modal -->
+    <div id="modal-cacheta-player" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="card-gradient border-2 border-amber-500 rounded-2xl w-full max-w-sm p-5 shadow-2xl">
+            <h3 class="text-lg font-black text-amber-400 uppercase mb-3">Novo Jogador</h3>
+            <input type="text" id="cacheta-new-name" placeholder="Nome do Jogador" class="w-full bg-navyDark border border-amber-500/50 rounded-xl px-4 py-3 text-white font-bold outline-none mb-3">
+            <div class="mb-4">
+                <label class="text-xs text-amber-300 font-semibold block mb-1">Vidas Iniciais:</label>
+                <input type="number" id="cacheta-new-lives" value="3" class="w-full bg-navyDark border border-amber-500/50 rounded-xl px-4 py-3 text-white font-bold text-center outline-none">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeAddPlayerModal()" class="py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold">Cancelar</button>
+                <button onclick="confirmAddCachetaPlayer()" class="py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canastra Round Modal -->
+    <div id="modal-canastra" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="card-gradient border-2 border-amber-500 rounded-2xl w-full max-w-sm p-5 shadow-2xl">
+            <h3 class="text-lg font-black text-amber-400 uppercase mb-3">Pontos da Rodada (Canastra)</h3>
+            <div class="space-y-3 mb-4">
+                <div>
+                    <label id="canastra-label-a" class="text-xs text-amber-300 font-bold block mb-1">Dupla 1</label>
+                    <input type="number" id="canastra-input-a" placeholder="Pontos feitos" class="w-full bg-navyDark border border-amber-500/50 rounded-xl px-4 py-2.5 text-white font-bold outline-none text-center">
+                </div>
+                <div>
+                    <label id="canastra-label-b" class="text-xs text-amber-300 font-bold block mb-1">Dupla 2</label>
+                    <input type="number" id="canastra-input-b" placeholder="Pontos feitos" class="w-full bg-navyDark border border-amber-500/50 rounded-xl px-4 py-2.5 text-white font-bold outline-none text-center">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeCanastraModal()" class="py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold">Cancelar</button>
+                <button onclick="confirmCanastraPts()" class="py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow">Salvar Rodada</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APK Export Guide Modal -->
+    <div id="modal-apk" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="card-gradient border-2 border-amber-500 rounded-2xl w-full max-w-md p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-amber-500/20">
+                <h3 class="text-lg font-black text-amber-400 uppercase flex items-center gap-2">
+                    <i class="fa-brands fa-android"></i> Gerar APK do "Marcador"
+                </h3>
+                <button onclick="closeModal('modal-apk')" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+                <p>Siga os passos abaixo para transformar o app <strong>Marcador</strong> em um instalador <strong>.APK</strong> para Android usando sua imagem de capa como ícone do aplicativo:</p>
+                
+                <div class="bg-navyDark/80 p-3.5 rounded-xl border border-amber-500/30">
+                    <strong class="text-amber-400 block mb-1.5 text-sm">Opção 1: PWABuilder (Sem instalar programas)</strong>
+                    <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+                        <li>Salve este arquivo como <code class="bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded">index.html</code> junto com sua imagem de capa na mesma pasta.</li>
+                        <li>Suba a pasta gratuitamente no <strong>Netlify Drop</strong> ou <strong>GitHub Pages</strong>.</li>
+                        <li>Acesse <span class="text-amber-400 font-bold">pwabuilder.com</span>, cole a URL publicada e clique em <strong>Start</strong>.</li>
+                        <li>Em <strong>Package for Stores > Android</strong>, configure o nome <strong>"Marcador"</strong>, envie sua imagem como ícone e baixe o <strong>.APK pronto para instalar</strong>.</li>
+                    </ol>
+                </div>
+
+                <div class="bg-navyDark/80 p-3.5 rounded-xl border border-amber-500/30">
+                    <strong class="text-amber-400 block mb-1.5 text-sm">Opção 2: Capacitor + Android Studio (Local)</strong>
+                    <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+                        <li>Coloque o <code class="bg-slate-800 text-amber-300 px-1 rounded">index.html</code> e a imagem na pasta <code class="bg-slate-800 text-amber-300 px-1 rounded">www/</code>.</li>
+                        <li>No terminal, execute:<br>
+                            <code class="block bg-black/60 text-amber-300 p-2 rounded mt-1 font-mono text-[11px]">npm init -y && npm i @capacitor/core @capacitor/cli @capacitor/android<br>npx cap init "Marcador" com.marcador.app --web-dir=www<br>npx cap add android && npx cap open android</code>
+                        </li>
+                        <li>No Android Studio, clique com o botão direito em <code class="text-amber-300">res > New > Image Asset</code> para aplicar sua imagem como ícone do app.</li>
+                        <li>Vá no menu superior em <strong>Build > Build Bundle(s) / APK(s) > Build APK(s)</strong> para gerar o arquivo <code class="text-amber-300">app-debug.apk</code>.</li>
+                    </ol>
+                </div>
+            </div>
+            <button onclick="closeModal('modal-apk')" class="w-full mt-4 py-3 bg-amber-600 hover:bg-amber-500 text-navyDark font-black rounded-xl shadow">Entendido</button>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // Haptic & subtle Web Audio click feedback
+        let audioCtx = null;
+        function playFeedback(freq = 520, vibratePattern = 40) {
+            if ("vibrate" in navigator) {
+                try { navigator.vibrate(vibratePattern); } catch(e) {}
+            }
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.06);
+            } catch(e) {}
+        }
+
+        // Custom Confirm Dialog (Replaces window.confirm)
+        let pendingConfirmAction = null;
+        function showConfirmModal(title, message, onConfirm) {
+            document.getElementById('confirm-modal-title').innerText = title;
+            document.getElementById('confirm-modal-msg').innerText = message;
+            pendingConfirmAction = onConfirm;
+            document.getElementById('modal-confirm').classList.remove('hidden');
+            playFeedback(400, 30);
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('modal-confirm').classList.add('hidden');
+            pendingConfirmAction = null;
+        }
+
+        document.getElementById('confirm-modal-btn').addEventListener('click', () => {
+            if (typeof pendingConfirmAction === 'function') {
+                pendingConfirmAction();
+            }
+            closeConfirmModal();
+        });
+
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bg = type === 'success' ? 'bg-amber-500 text-navyDark border-amber-300' : 'bg-navyLight text-amber-300 border-amber-500/50';
+            toast.className = `${bg} px-4 py-3 rounded-xl shadow-2xl border font-bold text-sm flex items-center justify-between pointer-events-auto transform translate-y-2 opacity-0 transition-all duration-300`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Screen Switcher
+        function switchScreen(screenId) {
+            playFeedback(580, 30);
+            ['home', 'truco', 'domino', 'cacheta', 'canastra'].forEach(id => {
+                document.getElementById(`screen-${id}`).classList.add('hidden');
+            });
+            document.getElementById(`screen-${screenId}`).classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Modal Helpers
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); playFeedback(520, 20); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); playFeedback(440, 20); }
+
+        /* ==================== TRUCO LOGIC ==================== */
+        let trucoState = {
+            nos: 0,
+            eles: 0,
+            quedasNos: 0,
+            quedasEles: 0
+        };
+
+        function loadTrucoState() {
+            const saved = localStorage.getItem('marcador_truco');
+            if (saved) {
+                trucoState = JSON.parse(saved);
+            }
+            updateTrucoUI();
+        }
+
+        function saveTrucoState() {
+            localStorage.setItem('marcador_truco', JSON.stringify(trucoState));
+        }
+
+        function addTrucoPts(team, pts) {
+            playFeedback(pts > 0 ? 660 : 380, 50);
+            trucoState[team] += pts;
+            if (trucoState[team] < 0) trucoState[team] = 0;
+            if (trucoState[team] > 12) trucoState[team] = 12;
+
+            // Check win condition (12 points)
+            if (trucoState.nos >= 12) {
+                trucoState.quedasNos++;
+                showToast("Nós vencemos a queda!", "success");
+                resetTrucoRound();
+            } else if (trucoState.eles >= 12) {
+                trucoState.quedasEles++;
+                showToast("Eles venceram a queda!", "success");
+                resetTrucoRound();
+            }
+
+            saveTrucoState();
+            updateTrucoUI();
+        }
+
+        function resetTrucoRound() {
+            trucoState.nos = 0;
+            trucoState.eles = 0;
+        }
+
+        function requestResetTruco() {
+            showConfirmModal("Zerar Truco", "Deseja zerar os pontos e as quedas do Truco?", () => {
+                trucoState = { nos: 0, eles: 0, quedasNos: 0, quedasEles: 0 };
+                saveTrucoState();
+                updateTrucoUI();
+                showToast("Placar de Truco reiniciado.");
+            });
+        }
+
+        function updateTrucoUI() {
+            document.getElementById('truco-pts-nos').innerText = trucoState.nos;
+            document.getElementById('truco-pts-eles').innerText = trucoState.eles;
+            document.getElementById('truco-q-nos').innerText = trucoState.quedasNos;
+            document.getElementById('truco-q-eles').innerText = trucoState.quedasEles;
+
+            const statusNos = document.getElementById('truco-status-nos');
+            const statusEles = document.getElementById('truco-status-eles');
+            
+            statusNos.innerText = trucoState.nos === 11 ? "🔥 MÃO DE 11!" : "";
+            statusEles.innerText = trucoState.eles === 11 ? "🔥 MÃO DE 11!" : "";
+        }
+
+        /* ==================== DOMINO LOGIC ==================== */
+        let dominoState = {
+            nameA: "Dupla 1 (Nós)",
+            nameB: "Dupla 2 (Eles)",
+            ptsA: 0,
+            ptsB: 0,
+            target: 200,
+            history: []
+        };
+        let activeDominoTeam = 'A';
+
+        function loadDominoState() {
+            const saved = localStorage.getItem('marcador_domino');
+            if (saved) {
+                dominoState = JSON.parse(saved);
+                document.getElementById('domino-name-a').value = dominoState.nameA;
+                document.getElementById('domino-name-b').value = dominoState.nameB;
+                document.getElementById('domino-target').value = dominoState.target;
+            }
+            updateDominoUI();
+        }
+
+        function saveDominoState() {
+            dominoState.nameA = document.getElementById('domino-name-a').value || "Dupla 1";
+            dominoState.nameB = document.getElementById('domino-name-b').value || "Dupla 2";
+            dominoState.target = parseInt(document.getElementById('domino-target').value) || 200;
+            localStorage.setItem('marcador_domino', JSON.stringify(dominoState));
+        }
+
+        function openDominoModal(team) {
+            activeDominoTeam = team;
+            const teamName = team === 'A' ? dominoState.nameA : dominoState.nameB;
+            document.getElementById('domino-modal-title').innerText = `Pontos para ${teamName}`;
+            document.getElementById('domino-input-pts').value = '';
+            openModal('modal-domino');
+            setTimeout(() => document.getElementById('domino-input-pts').focus(), 100);
+        }
+
+        function closeDominoModal() {
+            closeModal('modal-domino');
+        }
+
+        function confirmDominoPts() {
+            const pts = parseInt(document.getElementById('domino-input-pts').value);
+            if (isNaN(pts) || pts <= 0) {
+                showToast("Digite um valor válido de pontos.");
+                return;
+            }
+
+            if (activeDominoTeam === 'A') {
+                dominoState.ptsA += pts;
+            } else {
+                dominoState.ptsB += pts;
+            }
+
+            dominoState.history.unshift({
+                team: activeDominoTeam === 'A' ? dominoState.nameA : dominoState.nameB,
+                pts: pts,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+
+            saveDominoState();
+            updateDominoUI();
+            closeDominoModal();
+            playFeedback(660, 50);
+
+            if (dominoState.ptsA >= dominoState.target || dominoState.ptsB >= dominoState.target) {
+                const winner = dominoState.ptsA >= dominoState.target ? dominoState.nameA : dominoState.nameB;
+                showToast(`🏆 ${winner} atingiu a meta de ${dominoState.target} pontos!`, "success");
+            }
+        }
+
+        function requestResetDomino() {
+            showConfirmModal("Zerar Dominó", "Deseja zerar o placar e o histórico do Dominó?", () => {
+                dominoState.ptsA = 0;
+                dominoState.ptsB = 0;
+                dominoState.history = [];
+                saveDominoState();
+                updateDominoUI();
+                showToast("Dominó reiniciado.");
+            });
+        }
+
+        function updateDominoUI() {
+            document.getElementById('domino-pts-a').innerText = dominoState.ptsA;
+            document.getElementById('domino-pts-b').innerText = dominoState.ptsB;
+            
+            const historyList = document.getElementById('domino-history-list');
+            if (dominoState.history.length === 0) {
+                historyList.innerHTML = `<p class="text-slate-500 text-center italic">Nenhuma rodada registrada ainda.</p>`;
+            } else {
+                historyList.innerHTML = dominoState.history.map(h => `
+                    <div class="flex justify-between items-center bg-navyBase/80 px-3 py-2 rounded-lg border border-amber-500/20">
+                        <span><strong class="text-amber-400">${h.team}</strong> fez <span class="text-white font-bold">+${h.pts}</span> pts</span>
+                        <span class="text-[10px] text-slate-400">${h.time}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        /* ==================== CACHETA LOGIC ==================== */
+        let cachetaPlayers = [
+            { id: 1, name: "Jogador 1", lives: 3 },
+            { id: 2, name: "Jogador 2", lives: 3 },
+            { id: 3, name: "Jogador 3", lives: 3 }
+        ];
+
+        function loadCachetaState() {
+            const saved = localStorage.getItem('marcador_cacheta');
+            if (saved) {
+                cachetaPlayers = JSON.parse(saved);
+            }
+            updateCachetaUI();
+        }
+
+        function saveCachetaState() {
+            localStorage.setItem('marcador_cacheta', JSON.stringify(cachetaPlayers));
+        }
+
+        function openAddPlayerModal() {
+            document.getElementById('cacheta-new-name').value = '';
+            document.getElementById('cacheta-new-lives').value = '3';
+            openModal('modal-cacheta-player');
+            setTimeout(() => document.getElementById('cacheta-new-name').focus(), 100);
+        }
+
+        function closeAddPlayerModal() {
+            closeModal('modal-cacheta-player');
+        }
+
+        function confirmAddCachetaPlayer() {
+            const name = document.getElementById('cacheta-new-name').value.trim();
+            const lives = parseInt(document.getElementById('cacheta-new-lives').value);
+            if (!name) {
+                showToast("Digite o nome do jogador.");
+                return;
+            }
+            cachetaPlayers.push({
+                id: Date.now(),
+                name: name,
+                lives: isNaN(lives) ? 3 : lives
+            });
+            saveCachetaState();
+            updateCachetaUI();
+            closeAddPlayerModal();
+            showToast("Jogador adicionado!");
+        }
+
+        function updateCachetaLives(id, delta) {
+            playFeedback(delta > 0 ? 640 : 400, 40);
+            const player = cachetaPlayers.find(p => p.id === id);
+            if (player) {
+                player.lives += delta;
+                if (player.lives < 0) player.lives = 0;
+                saveCachetaState();
+                updateCachetaUI();
+            }
+        }
+
+        function requestRemoveCachetaPlayer(id, name) {
+            showConfirmModal("Remover Jogador", `Remover "${name}" da partida de Cacheta?`, () => {
+                cachetaPlayers = cachetaPlayers.filter(p => p.id !== id);
+                saveCachetaState();
+                updateCachetaUI();
+                showToast("Jogador removido.");
+            });
+        }
+
+        function updateCachetaUI() {
+            const list = document.getElementById('cacheta-players-list');
+            if (cachetaPlayers.length === 0) {
+                list.innerHTML = `<div class="bg-navyDark/70 p-6 rounded-xl text-center text-slate-400 italic border border-amber-500/20">Nenhum jogador cadastrado. Toque no botão + acima.</div>`;
+                return;
+            }
+
+            list.innerHTML = cachetaPlayers.map(p => `
+                <div class="card-gradient border ${p.lives === 0 ? 'border-red-500/60 opacity-80' : 'border-amber-500/40'} rounded-xl p-3.5 flex items-center justify-between shadow-md">
+                    <div>
+                        <span class="font-bold text-amber-300 text-sm block ${p.lives === 0 ? 'line-through text-slate-400' : ''}">${p.name}</span>
+                        <div class="flex items-center gap-1.5 mt-1">
+                            <span class="text-xs text-slate-400 font-semibold">Vidas:</span>
+                            <span class="text-lg font-black ${p.lives === 0 ? 'text-red-400' : 'text-white'}">${p.lives}</span>
+                            ${p.lives === 0 ? '<span class="text-[10px] bg-red-900/70 text-red-200 px-2 py-0.5 rounded-full font-bold ml-1">ELIMINADO</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="updateCachetaLives(${p.id}, -1)" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-red-400 rounded-xl font-bold flex items-center justify-center shadow active:scale-95"><i class="fa-solid fa-minus"></i></button>
+                        <button onclick="updateCachetaLives(${p.id}, 1)" class="w-10 h-10 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold flex items-center justify-center shadow active:scale-95" title="Comprar / Somar Vida"><i class="fa-solid fa-plus"></i></button>
+                        <button onclick="requestRemoveCachetaPlayer(${p.id}, '${p.name.replace(/'/g, "\\'")}')" class="w-10 h-10 bg-red-950/60 hover:bg-red-900 text-red-400 rounded-xl flex items-center justify-center ml-1 active:scale-95"><i class="fa-solid fa-trash text-xs"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ==================== CANASTRA LOGIC ==================== */
+        let canastraState = {
+            nameA: "Dupla 1",
+            nameB: "Dupla 2",
+            ptsA: 0,
+            ptsB: 0,
+            history: []
+        };
+
+        function loadCanastraState() {
+            const saved = localStorage.getItem('marcador_canastra');
+            if (saved) {
+                canastraState = JSON.parse(saved);
+                document.getElementById('canastra-name-a').value = canastraState.nameA;
+                document.getElementById('canastra-name-b').value = canastraState.nameB;
+            }
+            updateCanastraUI();
+        }
+
+        function saveCanastraState() {
+            canastraState.nameA = document.getElementById('canastra-name-a').value || "Dupla 1";
+            canastraState.nameB = document.getElementById('canastra-name-b').value || "Dupla 2";
+            localStorage.setItem('marcador_canastra', JSON.stringify(canastraState));
+        }
+
+        function openCanastraModal() {
+            document.getElementById('canastra-label-a').innerText = canastraState.nameA;
+            document.getElementById('canastra-label-b').innerText = canastraState.nameB;
+            document.getElementById('canastra-input-a').value = '';
+            document.getElementById('canastra-input-b').value = '';
+            openModal('modal-canastra');
+            setTimeout(() => document.getElementById('canastra-input-a').focus(), 100);
+        }
+
+        function closeCanastraModal() {
+            closeModal('modal-canastra');
+        }
+
+        function confirmCanastraPts() {
+            const ptsA = parseInt(document.getElementById('canastra-input-a').value) || 0;
+            const ptsB = parseInt(document.getElementById('canastra-input-b').value) || 0;
+
+            canastraState.ptsA += ptsA;
+            canastraState.ptsB += ptsB;
+
+            canastraState.history.unshift({
+                a: ptsA,
+                b: ptsB,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+
+            saveCanastraState();
+            updateCanastraUI();
+            closeCanastraModal();
+            playFeedback(660, 50);
+            showToast("Pontos da rodada salvos com sucesso!");
+        }
+
+        function requestResetCanastra() {
+            showConfirmModal("Zerar Canastra", "Deseja zerar o placar e o histórico da Canastra?", () => {
+                canastraState.ptsA = 0;
+                canastraState.ptsB = 0;
+                canastraState.history = [];
+                saveCanastraState();
+                updateCanastraUI();
+                showToast("Canastra reiniciada.");
+            });
+        }
+
+        function updateCanastraUI() {
+            document.getElementById('canastra-pts-a').innerText = canastraState.ptsA;
+            document.getElementById('canastra-pts-b').innerText = canastraState.ptsB;
+
+            const historyList = document.getElementById('canastra-history-list');
+            if (canastraState.history.length === 0) {
+                historyList.innerHTML = `<p class="text-slate-500 text-center italic">Nenhuma rodada registrada.</p>`;
+            } else {
+                historyList.innerHTML = canastraState.history.map(h => `
+                    <div class="flex justify-between items-center bg-navyBase/80 px-3 py-2 rounded-lg border border-amber-500/20">
+                        <span><strong class="text-amber-400">${canastraState.nameA}:</strong> <span class="text-white font-bold">${h.a >= 0 ? '+' + h.a : h.a}</span> | <strong class="text-amber-400">${canastraState.nameB}:</strong> <span class="text-white font-bold">${h.b >= 0 ? '+' + h.b : h.b}</span></span>
+                        <span class="text-[10px] text-slate-400">${h.time}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize App on Load
+        window.onload = function() {
+            loadTrucoState();
+            loadDominoState();
+            loadCachetaState();
+            loadCanastraState();
+        };
+    </script>
+</body>
+</html>

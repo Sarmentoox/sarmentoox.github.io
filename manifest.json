@@ -2,17 +2,23 @@
   "name": "Marcador - Placar Oficial de Mesa e Baralho",
   "short_name": "Marcador",
   "description": "Aplicativo oficial para marcação de pontos de Truco, Dominó, Cacheta e Canastra.",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0b1329",
   "theme_color": "#0b1329",
   "icons": [
     {
-      "src": "capa.jpg",
-      "sizes": "192x192 512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "src": "./icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

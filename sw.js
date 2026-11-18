@@ -1,20 +1,34 @@
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open('marcador-store-v2').then((cache) => cache.addAll([
-      '/',
-      '/index.html',
-      '/manifest.json',
-      '/capa.jpg',
-      '/truco.jpg',
-      '/domino.jpg',
-      '/cacheta.jpg',
-      '/canastra.jpg'
-    ]))
+const CACHE_NAME = 'marcador-store-v3';
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon.png',
+  './capa_2.jpg',
+  './truco_2.jpg',
+  './domino_2.jpg',
+  './cacheta_2.jpg',
+  './canastra_2.jpg'
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((response) => response || fetch(e.request))
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+    )
+  );
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => response || fetch(event.request))
   );
 });

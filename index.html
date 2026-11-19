@@ -67,10 +67,9 @@
   <!-- ==================== TELA INICIAL (HOME) ==================== -->
   <div id="screen-home" class="flex-1 flex flex-col items-center justify-between p-6">
     <div class="w-full flex flex-col items-center mt-4">
-      <!-- Brasão Circular com a Capa -->
       <div class="w-36 h-36 rounded-full border-4 border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.35)] overflow-hidden relative bg-[#0b1329] flex items-center justify-center">
         <img 
-          src="./capa.jpg" 
+          src="./capa_2.jpg" 
           alt="Marcador" 
           class="w-full h-full object-cover scale-[1.42]"
           onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='flex';"
@@ -94,7 +93,7 @@
       <button onclick="openGame('truco')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
           <img 
-            src="./truco.jpg" 
+            src="./truco_2.jpg" 
             alt="Truco" 
             class="w-full h-full object-cover scale-[1.35]"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -109,7 +108,7 @@
       <button onclick="openGame('domino')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
           <img 
-            src="./domino.jpg" 
+            src="./domino_2.jpg" 
             alt="Dominó" 
             class="w-full h-full object-cover scale-[1.35]"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -124,7 +123,7 @@
       <button onclick="openGame('cacheta')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
           <img 
-            src="./cacheta.jpg" 
+            src="./cacheta_2.jpg" 
             alt="Cacheta" 
             class="w-full h-full object-cover scale-[1.35]"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -139,7 +138,7 @@
       <button onclick="openGame('canastra')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
           <img 
-            src="./canastra.jpg" 
+            src="./canastra_2.jpg" 
             alt="Canastra" 
             class="w-full h-full object-cover scale-[1.35]"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -151,7 +150,6 @@
       </button>
     </div>
 
-    <!-- Rodapé Discreto -->
     <div class="w-full text-center pb-2">
       <p class="text-[11px] text-slate-500">Marcador • Salvamento Automático Offline</p>
     </div>
@@ -175,12 +173,12 @@
     <!-- Placar de Quedas -->
     <div class="card-panel rounded-xl p-3 mb-4 flex justify-around items-center text-center">
       <div>
-        <span class="text-[10px] uppercase text-slate-400 block">Quedas Nós</span>
+        <span class="text-[10px] uppercase text-slate-400 block font-bold">NÓS</span>
         <span id="truco-quedas-nos" class="text-xl font-black text-amber-400">0</span>
       </div>
       <div class="h-8 w-[1px] bg-amber-500/20"></div>
       <div>
-        <span class="text-[10px] uppercase text-slate-400 block">Quedas Eles</span>
+        <span class="text-[10px] uppercase text-slate-400 block font-bold">ELES</span>
         <span id="truco-quedas-eles" class="text-xl font-black text-amber-400">0</span>
       </div>
     </div>
@@ -248,29 +246,25 @@
       </button>
     </div>
 
-    <!-- Placar Geral Dominó -->
+    <!-- Colunas NÓS x ELES -->
     <div class="grid grid-cols-2 gap-3 mb-4">
-      <div class="card-panel rounded-2xl p-4 text-center">
-        <input id="domino-name-a" type="text" value="Dupla A" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 text-sm w-full focus:outline-none">
-        <div id="domino-total-a" class="text-5xl font-black text-white my-2">0</div>
-      </div>
-      <div class="card-panel rounded-2xl p-4 text-center">
-        <input id="domino-name-b" type="text" value="Dupla B" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 text-sm w-full focus:outline-none">
-        <div id="domino-total-b" class="text-5xl font-black text-white my-2">0</div>
-      </div>
-    </div>
-
-    <!-- Adicionar Rodada -->
-    <div class="card-panel rounded-2xl p-4 mb-4">
-      <p class="text-xs text-slate-400 uppercase font-bold mb-2 text-center">Lançar Pontos da Rodada</p>
-      <div class="grid grid-cols-2 gap-3">
-        <div class="flex gap-2">
-          <input id="domino-input-a" type="number" placeholder="Pts A" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
-          <button onclick="addRoundPoints('domino', 'a')" class="btn-gold px-4 rounded-xl">+</button>
+      <!-- NÓS -->
+      <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
+        <input id="domino-name-a" type="text" value="NÓS" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
+        <div id="domino-total-a" class="text-6xl font-black text-white my-4">0</div>
+        <div class="w-full space-y-2">
+          <input id="domino-input-a" type="number" placeholder="Pontos" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-2 py-2.5 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+          <button onclick="addRoundPoints('domino', 'a')" class="w-full py-2.5 rounded-xl btn-gold text-sm uppercase tracking-wide">+ Somar</button>
         </div>
-        <div class="flex gap-2">
-          <input id="domino-input-b" type="number" placeholder="Pts B" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
-          <button onclick="addRoundPoints('domino', 'b')" class="btn-gold px-4 rounded-xl">+</button>
+      </div>
+
+      <!-- ELES -->
+      <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
+        <input id="domino-name-b" type="text" value="ELES" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
+        <div id="domino-total-b" class="text-6xl font-black text-white my-4">0</div>
+        <div class="w-full space-y-2">
+          <input id="domino-input-b" type="number" placeholder="Pontos" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-2 py-2.5 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+          <button onclick="addRoundPoints('domino', 'b')" class="w-full py-2.5 rounded-xl btn-gold text-sm uppercase tracking-wide">+ Somar</button>
         </div>
       </div>
     </div>
@@ -315,42 +309,41 @@
       </button>
       <div class="text-center">
         <h2 class="text-lg font-black text-amber-400 uppercase tracking-wide">Marcador • Canastra</h2>
-        <span class="text-xs text-slate-400">Modo Simplificado (Sem Canastra Real)</span>
+        <span class="text-xs text-slate-400">Modo Simplificado</span>
       </div>
       <button onclick="resetSimpleGame('canastra')" class="p-2 rounded-xl bg-slate-800/80 text-rose-400">
         <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
       </button>
     </div>
 
-    <!-- Placar Geral Canastra -->
+    <!-- Colunas NÓS x ELES -->
     <div class="grid grid-cols-2 gap-3 mb-4">
-      <div class="card-panel rounded-2xl p-4 text-center">
-        <input id="canastra-name-a" type="text" value="Nós" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 text-sm w-full focus:outline-none">
-        <div id="canastra-total-a" class="text-4xl font-black text-white my-2">0</div>
+      <!-- NÓS -->
+      <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
+        <input id="canastra-name-a" type="text" value="NÓS" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
+        <div id="canastra-total-a" class="text-5xl font-black text-white my-3">0</div>
+        <div class="w-full space-y-2">
+          <div class="flex gap-1.5">
+            <input id="canastra-input-a" type="number" placeholder="Pts" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-2 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+            <button onclick="addRoundPoints('canastra', 'a')" class="btn-gold px-3.5 rounded-xl font-black">+</button>
+          </div>
+          <button onclick="addQuickCanastra('a', 100)" class="w-full py-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs active:scale-95">+100 Suja/Batida</button>
+          <button onclick="addQuickCanastra('a', 200)" class="w-full py-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs active:scale-95">+200 Limpa</button>
+        </div>
       </div>
-      <div class="card-panel rounded-2xl p-4 text-center">
-        <input id="canastra-name-b" type="text" value="Eles" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 text-sm w-full focus:outline-none">
-        <div id="canastra-total-b" class="text-4xl font-black text-white my-2">0</div>
-      </div>
-    </div>
 
-    <!-- Lançamento Rápido Canastra -->
-    <div class="card-panel rounded-2xl p-4 mb-4">
-      <p class="text-xs text-slate-400 uppercase font-bold mb-2 text-center">Somar Pontos da Mesa / Batida</p>
-      <div class="grid grid-cols-2 gap-3">
-        <div class="flex gap-2">
-          <input id="canastra-input-a" type="number" placeholder="Pts Nós" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
-          <button onclick="addRoundPoints('canastra', 'a')" class="btn-gold px-4 rounded-xl">+</button>
+      <!-- ELES -->
+      <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
+        <input id="canastra-name-b" type="text" value="ELES" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
+        <div id="canastra-total-b" class="text-5xl font-black text-white my-3">0</div>
+        <div class="w-full space-y-2">
+          <div class="flex gap-1.5">
+            <input id="canastra-input-b" type="number" placeholder="Pts" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-2 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
+            <button onclick="addRoundPoints('canastra', 'b')" class="btn-gold px-3.5 rounded-xl font-black">+</button>
+          </div>
+          <button onclick="addQuickCanastra('b', 100)" class="w-full py-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs active:scale-95">+100 Suja/Batida</button>
+          <button onclick="addQuickCanastra('b', 200)" class="w-full py-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs active:scale-95">+200 Limpa</button>
         </div>
-        <div class="flex gap-2">
-          <input id="canastra-input-b" type="number" placeholder="Pts Eles" class="w-full bg-slate-900 border border-amber-500/30 rounded-xl px-3 py-2 text-white text-center font-bold focus:outline-none focus:border-amber-500">
-          <button onclick="addRoundPoints('canastra', 'b')" class="btn-gold px-4 rounded-xl">+</button>
-        </div>
-      </div>
-      <div class="grid grid-cols-3 gap-2 mt-3">
-        <button onclick="quickCanastra(100)" class="py-1.5 rounded-lg bg-slate-800 text-amber-300 text-xs font-bold">+100 Suja/Batida</button>
-        <button onclick="quickCanastra(200)" class="py-1.5 rounded-lg bg-slate-800 text-amber-300 text-xs font-bold">+200 Limpa</button>
-        <button onclick="quickCanastra(500)" class="py-1.5 rounded-lg bg-slate-800 text-amber-300 text-xs font-bold">+500 Ases</button>
       </div>
     </div>
 
@@ -371,9 +364,9 @@
 
     let appState = {
       truco: { nameNos: 'NÓS', nameEles: 'ELES', scoreNos: 0, scoreEles: 0, quedasNos: 0, quedasEles: 0 },
-      domino: { nameA: 'Dupla A', nameB: 'Dupla B', totalA: 0, totalB: 0, history: [] },
+      domino: { nameA: 'NÓS', nameB: 'ELES', totalA: 0, totalB: 0, history: [] },
       cacheta: { players: [{ name: 'Jogador 1', lives: 10 }, { name: 'Jogador 2', lives: 10 }] },
-      canastra: { nameA: 'Nós', nameB: 'Eles', totalA: 0, totalB: 0, history: [] }
+      canastra: { nameA: 'NÓS', nameB: 'ELES', totalA: 0, totalB: 0, history: [] }
     };
 
     function loadState() {
@@ -381,6 +374,10 @@
       if (saved) {
         try {
           appState = JSON.parse(saved);
+          if (appState.domino.nameA === 'Dupla A') appState.domino.nameA = 'NÓS';
+          if (appState.domino.nameB === 'Dupla B') appState.domino.nameB = 'ELES';
+          if (appState.canastra.nameA === 'Nós') appState.canastra.nameA = 'NÓS';
+          if (appState.canastra.nameB === 'Eles') appState.canastra.nameB = 'ELES';
         } catch (e) {}
       }
       renderAll();
@@ -389,10 +386,10 @@
     function saveState() {
       appState.truco.nameNos = document.getElementById('truco-name-nos').value || 'NÓS';
       appState.truco.nameEles = document.getElementById('truco-name-eles').value || 'ELES';
-      appState.domino.nameA = document.getElementById('domino-name-a').value || 'Dupla A';
-      appState.domino.nameB = document.getElementById('domino-name-b').value || 'Dupla B';
-      appState.canastra.nameA = document.getElementById('canastra-name-a').value || 'Nós';
-      appState.canastra.nameB = document.getElementById('canastra-name-b').value || 'Eles';
+      appState.domino.nameA = document.getElementById('domino-name-a').value || 'NÓS';
+      appState.domino.nameB = document.getElementById('domino-name-b').value || 'ELES';
+      appState.canastra.nameA = document.getElementById('canastra-name-a').value || 'NÓS';
+      appState.canastra.nameB = document.getElementById('canastra-name-b').value || 'ELES';
       localStorage.setItem('marcador_app_state_v1', JSON.stringify(appState));
     }
 
@@ -458,26 +455,21 @@
 
       if (side === 'a') {
         appState[game].totalA += val;
-        appState[game].history.unshift(`${appState[game].nameA}: +${val} pts (Total: ${appState[game].totalA})`);
-      } else {
-        appState[game].totalB += val;
-        appState[game].history.unshift(`${appState[game].nameB}: +${val} pts (Total: ${appState[game].totalB})`);
+        appState[game].history.unshift(`${appState[game].nameA}: +${val} pts (Total: ${appState[game].totalA})`); } else { appState[game].totalB += val; appState[game].history.unshift(`${appState[game].nameB}: +${val} pts (Total:${appState[game].totalB})`);
       }
       inputEl.value = '';
       saveState();
       renderAll();
     }
 
-    function quickCanastra(val) {
+    function addQuickCanastra(side, val) {
       vibrate();
-      const target = prompt(`Adicionar +${val} pontos para qual equipe?\nDigite 1 para ${appState.canastra.nameA} ou 2 para ${appState.canastra.nameB}:`);
-      if (target === '1') {
-        document.getElementById('canastra-input-a').value = val;
-        addRoundPoints('canastra', 'a');
-      } else if (target === '2') {
-        document.getElementById('canastra-input-b').value = val;
-        addRoundPoints('canastra', 'b');
+      if (side === 'a') {
+        appState.canastra.totalA += val;
+        appState.canastra.history.unshift(`${appState.canastra.nameA}: +${val} pts (Total: ${appState.canastra.totalA})`); } else { appState.canastra.totalB += val; appState.canastra.history.unshift(`${appState.canastra.nameB}: +${val} pts (Total:${appState.canastra.totalB})`);
       }
+      saveState();
+      renderAll();
     }
 
     function resetSimpleGame(game) {
@@ -557,17 +549,4 @@
           <div class="flex items-center gap-2">
             <button onclick="updateCachetaLife(${idx}, -1)" class="w-10 h-10 rounded-xl bg-slate-800 text-rose-400 font-black text-lg">-1</button>
             <button onclick="updateCachetaLife(${idx}, 1)" class="w-10 h-10 rounded-xl btn-gold font-black text-lg">+1</button>
-            <button onclick="removeCachetaPlayer(${idx})" class="p-2 text-slate-500 hover:text-rose-400">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </div>
-      `).join('');
-
-      lucide.createIcons();
-    }
-
-    loadState();
-  </script>
-</body>
-</html>
+            <button onclick="remove

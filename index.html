@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Marcador</title>
   
-  <!-- Configurações PWA e Manifesto -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0b1329">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,13 +13,11 @@
   <link rel="icon" type="image/png" href="./icon.png">
   <link rel="apple-touch-icon" href="./icon.png">
 
-  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-    
     body {
       font-family: 'Inter', sans-serif;
       background-color: #0b1329;
@@ -28,34 +25,28 @@
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
-
     .gold-gradient-text {
       background: linear-gradient(180deg, #fde047 0%, #eab308 50%, #ca8a04 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
     .card-panel {
       background-color: #111c3d;
       border: 1px solid rgba(234, 179, 8, 0.35);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
-
     .card-panel:active {
       transform: scale(0.97);
       border-color: #eab308;
     }
-
     .btn-gold {
       background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
       color: #0b1329;
       font-weight: 800;
     }
-
     .btn-gold:active {
       transform: scale(0.96);
     }
-
     ::-webkit-scrollbar {
       width: 0px;
       background: transparent;
@@ -64,85 +55,48 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between max-w-md mx-auto relative overflow-x-hidden">
 
-  <!-- ==================== TELA INICIAL (HOME) ==================== -->
+  <!-- TELA INICIAL -->
   <div id="screen-home" class="flex-1 flex flex-col items-center justify-between p-6">
     <div class="w-full flex flex-col items-center mt-4">
       <div class="w-36 h-36 rounded-full border-4 border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.35)] overflow-hidden relative bg-[#0b1329] flex items-center justify-center">
-        <img 
-          src="./capa_2.jpg" 
-          alt="Marcador" 
-          class="w-full h-full object-cover scale-[1.42]"
-          onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='flex';"
-        >
-        <div id="fallback-logo" class="hidden w-full h-full items-center justify-center text-amber-500 font-bold text-xl">
-          Marcador
-        </div>
+        <img src="./capa_2.jpg" alt="Marcador" class="w-full h-full object-cover scale-[1.42]" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='flex';">
+        <div id="fallback-logo" class="hidden w-full h-full items-center justify-center text-amber-500 font-bold text-xl">Marcador</div>
       </div>
-
-      <h1 class="text-4xl font-black tracking-wider mt-5 gold-gradient-text uppercase">
-        MARCADOR
-      </h1>
-      <p class="text-[11px] tracking-[0.2em] text-amber-200/70 uppercase mt-1 font-semibold">
-        Placar Oficial de Mesa &amp; Baralho
-      </p>
+      <h1 class="text-4xl font-black tracking-wider mt-5 gold-gradient-text uppercase">MARCADOR</h1>
+      <p class="text-[11px] tracking-[0.2em] text-amber-200/70 uppercase mt-1 font-semibold">Placar Oficial de Mesa &amp; Baralho</p>
     </div>
 
-    <!-- Grid de Seleção de Jogos -->
     <div class="w-full grid grid-cols-2 gap-4 my-6">
-      <!-- Truco -->
       <button onclick="openGame('truco')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
-          <img 
-            src="./truco_2.jpg" 
-            alt="Truco" 
-            class="w-full h-full object-cover scale-[1.35]"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-          >
+          <img src="./truco_2.jpg" alt="Truco" class="w-full h-full object-cover scale-[1.35]" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <i data-lucide="layers-2" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Truco</span>
         <span class="text-[11px] text-slate-400 mt-1">Paulista / Mineiro</span>
       </button>
 
-      <!-- Dominó -->
       <button onclick="openGame('domino')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
-          <img 
-            src="./domino_2.jpg" 
-            alt="Dominó" 
-            class="w-full h-full object-cover scale-[1.35]"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-          >
+          <img src="./domino_2.jpg" alt="Dominó" class="w-full h-full object-cover scale-[1.35]" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <i data-lucide="dices" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Dominó</span>
         <span class="text-[11px] text-slate-400 mt-1">Pontuação Acumulativa</span>
       </button>
 
-      <!-- Cacheta -->
       <button onclick="openGame('cacheta')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
-          <img 
-            src="./cacheta_2.jpg" 
-            alt="Cacheta" 
-            class="w-full h-full object-cover scale-[1.35]"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-          >
+          <img src="./cacheta_2.jpg" alt="Cacheta" class="w-full h-full object-cover scale-[1.35]" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <i data-lucide="heart-pulse" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Cacheta</span>
         <span class="text-[11px] text-slate-400 mt-1">Vidas e Compras</span>
       </button>
 
-      <!-- Canastra -->
       <button onclick="openGame('canastra')" class="card-panel rounded-2xl p-5 flex flex-col items-center justify-center transition-all">
         <div class="w-16 h-16 rounded-full border-2 border-amber-500/60 shadow-md overflow-hidden mb-3 bg-[#0b1329] flex items-center justify-center">
-          <img 
-            src="./canastra_2.jpg" 
-            alt="Canastra" 
-            class="w-full h-full object-cover scale-[1.35]"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-          >
+          <img src="./canastra_2.jpg" alt="Canastra" class="w-full h-full object-cover scale-[1.35]" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <i data-lucide="layers" class="hidden w-7 h-7 text-amber-400"></i>
         </div>
         <span class="text-lg font-bold text-white">Canastra</span>
@@ -155,22 +109,17 @@
     </div>
   </div>
 
-  <!-- ==================== TELA 1: TRUCO ==================== -->
+  <!-- TRUCO -->
   <div id="screen-truco" class="hidden flex-1 flex flex-col p-4">
     <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
-      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400">
-        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-      </button>
+      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
       <div class="text-center">
         <h2 class="text-lg font-black text-amber-400 uppercase tracking-wide">Marcador • Truco</h2>
         <span class="text-xs text-slate-400">Partida até 12 tentos</span>
       </div>
-      <button onclick="resetTruco()" class="p-2 rounded-xl bg-slate-800/80 text-rose-400" title="Zerar Partida">
-        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-      </button>
+      <button onclick="resetTruco()" class="p-2 rounded-xl bg-slate-800/80 text-rose-400"><i data-lucide="rotate-ccw" class="w-5 h-5"></i></button>
     </div>
 
-    <!-- Placar de Quedas -->
     <div class="card-panel rounded-xl p-3 mb-4 flex justify-around items-center text-center">
       <div>
         <span class="text-[10px] uppercase text-slate-400 block font-bold">NÓS</span>
@@ -183,14 +132,10 @@
       </div>
     </div>
 
-    <!-- Colunas Nós x Eles -->
     <div class="grid grid-cols-2 gap-3 flex-1">
-      <!-- NÓS -->
       <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
         <input id="truco-name-nos" type="text" value="NÓS" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
-        
         <div id="truco-score-nos" class="text-7xl font-black text-white my-4">0</div>
-
         <div class="w-full space-y-2">
           <div class="grid grid-cols-2 gap-2">
             <button onclick="addTruco('nos', -1)" class="py-3 rounded-xl bg-slate-800 text-rose-400 font-bold text-lg active:scale-95">-1</button>
@@ -207,12 +152,9 @@
         </div>
       </div>
 
-      <!-- ELES -->
       <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
         <input id="truco-name-eles" type="text" value="ELES" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
-        
         <div id="truco-score-eles" class="text-7xl font-black text-white my-4">0</div>
-
         <div class="w-full space-y-2">
           <div class="grid grid-cols-2 gap-2">
             <button onclick="addTruco('eles', -1)" class="py-3 rounded-xl bg-slate-800 text-rose-400 font-bold text-lg active:scale-95">-1</button>
@@ -231,24 +173,18 @@
     </div>
   </div>
 
-  <!-- ==================== TELA 2: DOMINÓ ==================== -->
+  <!-- DOMINÓ -->
   <div id="screen-domino" class="hidden flex-1 flex flex-col p-4">
     <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
-      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400">
-        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-      </button>
+      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
       <div class="text-center">
         <h2 class="text-lg font-black text-amber-400 uppercase tracking-wide">Marcador • Dominó</h2>
         <span class="text-xs text-slate-400">Pontuação Acumulativa</span>
       </div>
-      <button onclick="resetSimpleGame('domino')" class="p-2 rounded-xl bg-slate-800/80 text-rose-400">
-        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-      </button>
+      <button onclick="resetSimpleGame('domino')" class="p-2 rounded-xl bg-slate-800/80 text-rose-400"><i data-lucide="rotate-ccw" class="w-5 h-5"></i></button>
     </div>
 
-    <!-- Colunas NÓS x ELES -->
     <div class="grid grid-cols-2 gap-3 mb-4">
-      <!-- NÓS -->
       <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
         <input id="domino-name-a" type="text" value="NÓS" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
         <div id="domino-total-a" class="text-6xl font-black text-white my-4">0</div>
@@ -258,7 +194,6 @@
         </div>
       </div>
 
-      <!-- ELES -->
       <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
         <input id="domino-name-b" type="text" value="ELES" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
         <div id="domino-total-b" class="text-6xl font-black text-white my-4">0</div>
@@ -269,56 +204,43 @@
       </div>
     </div>
 
-    <!-- Histórico de Rodadas -->
     <div class="card-panel rounded-2xl p-4 flex-1 overflow-y-auto">
       <h3 class="text-xs font-bold uppercase text-amber-400 mb-2">Histórico de Rodadas</h3>
       <div id="domino-history" class="space-y-1.5 text-sm text-slate-300"></div>
     </div>
   </div>
 
-  <!-- ==================== TELA 3: CACHETA ==================== -->
+  <!-- CACHETA -->
   <div id="screen-cacheta" class="hidden flex-1 flex flex-col p-4">
     <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
-      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400">
-        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-      </button>
+      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
       <div class="text-center">
         <h2 class="text-lg font-black text-amber-400 uppercase tracking-wide">Marcador • Cacheta</h2>
         <span class="text-xs text-slate-400">Controle de Vidas</span>
       </div>
-      <button onclick="resetCacheta()" class="p-2 rounded-xl bg-slate-800/80 text-rose-400">
-        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-      </button>
+      <button onclick="resetCacheta()" class="p-2 rounded-xl bg-slate-800/80 text-rose-400"><i data-lucide="rotate-ccw" class="w-5 h-5"></i></button>
     </div>
 
-    <!-- Adicionar Jogador -->
     <div class="flex gap-2 mb-4">
       <input id="cacheta-new-player" type="text" placeholder="Nome do jogador..." class="flex-1 bg-[#111c3d] border border-amber-500/30 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500">
       <button onclick="addCachetaPlayer()" class="btn-gold px-5 rounded-xl text-sm">Adicionar</button>
     </div>
 
-    <!-- Lista de Jogadores -->
     <div id="cacheta-players-list" class="space-y-3 flex-1 overflow-y-auto"></div>
   </div>
 
-  <!-- ==================== TELA 4: CANASTRA (SIMPLIFICADA) ==================== -->
+  <!-- CANASTRA -->
   <div id="screen-canastra" class="hidden flex-1 flex flex-col p-4">
     <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
-      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400">
-        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-      </button>
+      <button onclick="goHome()" class="p-2 rounded-xl bg-slate-800/80 text-amber-400"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
       <div class="text-center">
         <h2 class="text-lg font-black text-amber-400 uppercase tracking-wide">Marcador • Canastra</h2>
         <span class="text-xs text-slate-400">Modo Simplificado</span>
       </div>
-      <button onclick="resetSimpleGame('canastra')" class="p-2 rounded-xl bg-slate-800/80 text-rose-400">
-        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-      </button>
+      <button onclick="resetSimpleGame('canastra')" class="p-2 rounded-xl bg-slate-800/80 text-rose-400"><i data-lucide="rotate-ccw" class="w-5 h-5"></i></button>
     </div>
 
-    <!-- Colunas NÓS x ELES -->
     <div class="grid grid-cols-2 gap-3 mb-4">
-      <!-- NÓS -->
       <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
         <input id="canastra-name-a" type="text" value="NÓS" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
         <div id="canastra-total-a" class="text-5xl font-black text-white my-3">0</div>
@@ -332,7 +254,6 @@
         </div>
       </div>
 
-      <!-- ELES -->
       <div class="card-panel rounded-2xl p-4 flex flex-col items-center justify-between">
         <input id="canastra-name-b" type="text" value="ELES" onchange="saveState()" class="bg-transparent text-center font-bold text-amber-400 uppercase tracking-wider w-full focus:outline-none border-b border-transparent focus:border-amber-500">
         <div id="canastra-total-b" class="text-5xl font-black text-white my-3">0</div>
@@ -347,18 +268,16 @@
       </div>
     </div>
 
-    <!-- Histórico Canastra -->
     <div class="card-panel rounded-2xl p-4 flex-1 overflow-y-auto">
       <h3 class="text-xs font-bold uppercase text-amber-400 mb-2">Parciais da Partida</h3>
       <div id="canastra-history" class="space-y-1.5 text-sm text-slate-300"></div>
     </div>
   </div>
 
-  <!-- ==================== SCRIPTS & LÓGICA DO APP ==================== -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW erro:', err));
+        navigator.serviceWorker.register('./sw.js?v=5').catch(err => console.log('SW erro:', err));
       });
     }
 
@@ -455,7 +374,10 @@
 
       if (side === 'a') {
         appState[game].totalA += val;
-        appState[game].history.unshift(`${appState[game].nameA}: +${val} pts (Total: ${appState[game].totalA})`); } else { appState[game].totalB += val; appState[game].history.unshift(`${appState[game].nameB}: +${val} pts (Total:${appState[game].totalB})`);
+        appState[game].history.unshift(`${appState[game].nameA}: +${val} pts (Total: ${appState[game].totalA})`);
+      } else {
+        appState[game].totalB += val;
+        appState[game].history.unshift(`${appState[game].nameB}: +${val} pts (Total: ${appState[game].totalB})`);
       }
       inputEl.value = '';
       saveState();
@@ -466,7 +388,10 @@
       vibrate();
       if (side === 'a') {
         appState.canastra.totalA += val;
-        appState.canastra.history.unshift(`${appState.canastra.nameA}: +${val} pts (Total: ${appState.canastra.totalA})`); } else { appState.canastra.totalB += val; appState.canastra.history.unshift(`${appState.canastra.nameB}: +${val} pts (Total:${appState.canastra.totalB})`);
+        appState.canastra.history.unshift(`${appState.canastra.nameA}: +${val} pts (Total: ${appState.canastra.totalA})`);
+      } else {
+        appState.canastra.totalB += val;
+        appState.canastra.history.unshift(`${appState.canastra.nameB}: +${val} pts (Total: ${appState.canastra.totalB})`);
       }
       saveState();
       renderAll();
@@ -549,4 +474,17 @@
           <div class="flex items-center gap-2">
             <button onclick="updateCachetaLife(${idx}, -1)" class="w-10 h-10 rounded-xl bg-slate-800 text-rose-400 font-black text-lg">-1</button>
             <button onclick="updateCachetaLife(${idx}, 1)" class="w-10 h-10 rounded-xl btn-gold font-black text-lg">+1</button>
-            <button onclick="remove
+            <button onclick="removeCachetaPlayer(${idx})" class="p-2 text-slate-500 hover:text-rose-400">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    loadState();
+  </script>
+</body>
+</html>

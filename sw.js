@@ -1,4 +1,4 @@
-const CACHE_NAME = 'marcador-store-v3';
+const CACHE_NAME = 'marcador-store-v5';
 const ASSETS = [
   './',
   './index.html',
